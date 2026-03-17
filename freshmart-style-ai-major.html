@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MajorFutur — Ton avenir face à l'IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a7c4f;
+    --green-light: #7dde8e;
+    --green-bright: #aaff00;
+    --dark: #0d1a0f;
+    --white: #f5faf6;
+    --card-bg: rgba(255,255,255,0.06);
+    --border: rgba(170,255,0,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ——— NAV ——— */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(13,26,15,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: var(--green-bright);
+    letter-spacing: -0.03em;
+  }
+  .nav-links { display: flex; gap: 2rem; font-size: 0.88rem; opacity: 0.7; }
+  .nav-links a { color: inherit; text-decoration: none; transition: opacity .2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--green-bright);
+    color: var(--dark);
+    border: none;
+    padding: 0.55rem 1.3rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(170,255,0,0.3); }
+
+  /* ——— HERO ——— */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, #1a5c35 0%, #0d1a0f 70%);
+    z-index: 0;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23aaff00' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(170,255,0,0.12);
+    border: 1px solid rgba(170,255,0,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    color: var(--green-bright);
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+    animation: fadeDown 0.6s ease both;
+  }
+  .hero-badge span { width: 6px; height: 6px; background: var(--green-bright); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(3rem, 9vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    position: relative; z-index: 1;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+  .hero-title .green { color: var(--green-bright); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(245,250,246,0.6);
+    max-width: 520px;
+    line-height: 1.65;
+    margin: 1.5rem auto 0;
+    position: relative; z-index: 1;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ——— CARD ——— */
+  .card-wrapper {
+    width: 100%;
+    max-width: 700px;
+    margin: 3rem auto 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  }
+  .card-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green-bright);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  /* Search input */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  #majorSearch {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 1rem 1rem 1rem 3rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--white);
+    outline: none;
+    transition: border-color .2s, background .2s;
+  }
+  #majorSearch::placeholder { color: rgba(255,255,255,0.3); }
+  #majorSearch:focus {
+    border-color: var(--green-bright);
+    background: rgba(170,255,0,0.05);
+  }
+
+  /* Dropdown */
+  #dropdown {
+    display: none;
+    background: #141f16;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    max-height: 280px;
+    overflow-y: auto;
+    margin-bottom: 1.2rem;
+  }
+  #dropdown::-webkit-scrollbar { width: 4px; }
+  #dropdown::-webkit-scrollbar-thumb { background: rgba(170,255,0,0.3); border-radius: 4px; }
+  .drop-item {
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.93rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background .15s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .drop-item:last-child { border-bottom: none; }
+  .drop-item:hover { background: rgba(170,255,0,0.08); }
+  .drop-item .domain-tag {
+    font-size: 0.7rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 0.15rem 0.5rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* Analyze button */
+  #analyzeBtn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--green-bright);
+    color: var(--dark);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+  #analyzeBtn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+  #analyzeBtn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(170,255,0,0.35); }
+
+  /* ——— RESULT ——— */
+  #result { display: none; margin-top: 1.8rem; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .result-major-name {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .risk-pill {
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Unbounded', sans-serif;
+    letter-spacing: 0.03em;
+  }
+  .risk-high   { background: rgba(255,65,65,0.18);  color: #ff6b6b; border: 1px solid rgba(255,65,65,0.3); }
+  .risk-medium { background: rgba(255,180,50,0.15); color: #ffb432; border: 1px solid rgba(255,180,50,0.3); }
+  .risk-low    { background: rgba(80,220,120,0.15); color: #50dc78; border: 1px solid rgba(80,220,120,0.3); }
+
+  /* Risk bar */
+  .risk-bar-wrap {
+    margin-bottom: 1.5rem;
+  }
+  .risk-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.5rem;
+  }
+  .risk-bar-track {
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .risk-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1.2s cubic-bezier(.16,1,.3,1);
+    width: 0%;
+  }
+
+  /* Info blocks */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .info-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+  }
+  .info-block .ib-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .info-block .ib-value { font-size: 0.95rem; font-weight: 500; }
+
+  /* AI verdict */
+  .verdict-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: rgba(245,250,246,0.85);
+  }
+  .verdict-box .vb-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green-bright);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  /* Skills chips */
+  .skills-section { margin-top: 1.2rem; }
+  .skills-section .sk-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.6rem;
+  }
+  .skills-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-chip {
+    padding: 0.3rem 0.85rem;
+    background: rgba(170,255,0,0.08);
+    border: 1px solid rgba(170,255,0,0.2);
+    border-radius: 50px;
+    font-size: 0.78rem;
+    color: var(--green-bright);
+  }
+
+  /* Loading */
+  .loading-wrap {
+    display: none;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.5rem 0;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+  }
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(170,255,0,0.2);
+    border-top-color: var(--green-bright);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ——— STATS SECTION ——— */
+  .stats-section {
+    padding: 5rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: border-color .3s, transform .3s;
+  }
+  .stat-card:hover { border-color: rgba(170,255,0,0.25); transform: translateY(-4px); }
+  .stat-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--green-bright);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .stat-desc { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.25);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  @media(max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 3rem; }
+    .stats-section { grid-template-columns: 1fr; padding: 3rem 1.5rem; }
+    .info-grid { grid-template-columns: 1fr; }
+    .card { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MajorFutur</div>
+  <div class="nav-links">
+    <a href="#">Accueil</a>
+    <a href="#">À propos</a>
+    <a href="#">Ressources</a>
+    <a href="#">Contact</a>
+  </div>
+  <button class="nav-cta">Commencer →</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge"><span></span> Analyse propulsée par l'IA</div>
+  <h1 class="hero-title">Ton<br><span class="green">Majeur</span><br>Face à l'IA</h1>
+  <p class="hero-sub">Découvre si ta filière universitaire sera transformée ou remplacée par l'intelligence artificielle dans les 10 prochaines années.</p>
+
+  <!-- CARD -->
+  <div class="card-wrapper">
+    <div class="card">
+      <div class="card-label">🎓 Sélectionne ta filière</div>
+
+      <div class="search-wrap">
+        <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input id="majorSearch" type="text" placeholder="Ex: Informatique, Droit, Marketing…" autocomplete="off">
+      </div>
+
+      <div id="dropdown"></div>
+
+      <button id="analyzeBtn" disabled>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Analyser mon avenir
+      </button>
+
+      <div class="loading-wrap" id="loadingWrap">
+        <div class="spinner"></div>
+        <span>Consultation des données IA en cours…</span>
+      </div>
+
+      <div id="result"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stat-card">
+    <div class="stat-num">85M</div>
+    <div class="stat-desc">d'emplois mondiaux potentiellement automatisés par l'IA d'ici 2030</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">97M</div>
+    <div class="stat-desc">de nouveaux rôles créés à l'intersection de l'humain et de l'IA</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">100+</div>
+    <div class="stat-desc">filières universitaires analysées dans notre base de données</div>
+  </div>
+</section>
+
+<footer>MajorFutur · 2025 · Les données sont indicatives et basées sur des recherches académiques sur l'automatisation.</footer>
+
+<script>
+const majors = [
+  // Sciences & Tech
+  { name: "Informatique", domain: "Sciences & Tech", risk: 35, horizon: "2030", level: "Moyen", verdict: "L'IA code de plus en plus, mais les développeurs senior qui conçoivent des architectures complexes et comprennent les besoins humains restent irremplaçables. La filière évolue, elle ne disparaît pas.", skills: ["Prompt Engineering", "Architecture système", "IA éthique", "Cybersécurité"] },
+  { name: "Intelligence Artificielle", domain: "Sciences & Tech", risk: 10, horizon: "N/A", level: "Très Faible", verdict: "Tu travailles sur l'IA elle-même. Cette filière ne sera pas remplacée, elle sera au cœur de la transformation mondiale. Demande explosive pour les prochaines décennies.", skills: ["Machine Learning", "LLMs", "Recherche", "Ingénierie IA"] },
+  { name: "Cybersécurité", domain: "Sciences & Tech", risk: 18, horizon: "2035+", level: "Faible", verdict: "Plus il y a d'IA, plus les cybermenaces sont sophistiquées. Les experts en sécurité qui comprennent les systèmes d'IA sont parmi les profils les plus recherchés.", skills: ["Ethical Hacking", "IA défensive", "Cryptographie", "Forensics"] },
+  { name: "Mathématiques", domain: "Sciences & Tech", risk: 20, horizon: "2035+", level: "Faible", verdict: "Les mathématiciens fondent les algorithmes d'IA. La compréhension profonde des statistiques, de l'algèbre linéaire et de l'optimisation reste essentielle.", skills: ["Statistiques avancées", "Algèbre linéaire", "Optimisation", "Modélisation"] },
+  { name: "Physique", domain: "Sciences & Tech", risk: 22, horizon: "2035+", level: "Faible", verdict: "La recherche fondamentale en physique requiert intuition humaine et créativité. L'IA est un outil puissant pour le physicien, pas un remplaçant.", skills: ["Simulation IA", "Quantum computing", "Analyse de données", "Recherche"] },
+  { name: "Chimie", domain: "Sciences & Tech", risk: 38, horizon: "2030", level: "Moyen", verdict: "L'IA (AlphaFold, etc.) transforme la découverte moléculaire. Le chimiste doit maintenant maîtriser les outils IA pour rester compétitif.", skills: ["Cheminformatique", "Drug discovery IA", "Lab automation", "Analyse spectrale"] },
+  { name: "Biologie", domain: "Sciences & Tech", risk: 30, horizon: "2032", level: "Moyen", verdict: "Bioinformatique et biologie computationnelle explosent. Les biologistes hybrides (bio + IA) sont les plus demandés.", skills: ["Bioinformatique", "Génomique", "IA biomédicale", "Data bio"] },
+  { name: "Biotechnologie", domain: "Sciences & Tech", risk: 25, horizon: "2035", level: "Faible-Moyen", verdict: "Secteur en forte croissance porté par l'IA. La supervision humaine reste indispensable dans les processus réglementaires.", skills: ["Gene editing IA", "Fermentation", "Réglementaire", "R&D"] },
+  { name: "Génie Civil", domain: "Sciences & Tech", risk: 40, horizon: "2030", level: "Moyen", verdict: "La conception automatisée et la simulation IA transforment le secteur. Les ingénieurs spécialisés en smart cities et durabilité sont valorisés.", skills: ["BIM IA", "Smart cities", "Durabilité", "Gestion de projet"] },
+  { name: "Génie Mécanique", domain: "Sciences & Tech", risk: 45, horizon: "2028", level: "Moyen-Élevé", verdict: "La conception générative et l'impression 3D IA changent le métier. Reste valorisé pour les systèmes complexes et la validation terrain.", skills: ["CAD IA", "Robotique", "Maintenance prédictive", "Simulation"] },
+  { name: "Génie Électrique", domain: "Sciences & Tech", risk: 35, horizon: "2030", level: "Moyen", verdict: "L'essor de l'électrification (EV, énergies renouvelables) crée une forte demande. L'IA optimise mais ne remplace pas l'ingénieur électricien.", skills: ["IoT", "Énergies renouvelables", "IA embarquée", "Électronique de puissance"] },
+  { name: "Génie Logiciel", domain: "Sciences & Tech", risk: 38, horizon: "2029", level: "Moyen", verdict: "GitHub Copilot et les IA codeurs accélèrent le travail mais ne remplacent pas la conception et l'architecture. Évolution plutôt que disparition.", skills: ["Prompt engineering", "DevOps IA", "Architecture cloud", "QA automatisée"] },
+  { name: "Robotique", domain: "Sciences & Tech", risk: 12, horizon: "N/A", level: "Très Faible", verdict: "La robotique est elle-même un moteur de l'IA. Demande mondiale en explosion. C'est une filière d'avenir par excellence.", skills: ["ROS", "Vision par ordinateur", "Manipulation", "Navigation autonome"] },
+  { name: "Data Science", domain: "Sciences & Tech", risk: 28, horizon: "2032", level: "Faible-Moyen", verdict: "Les outils AutoML automatisent les tâches basiques, mais l'interprétation des données et la stratégie data restent humaines.", skills: ["MLOps", "LLMs", "BI avancé", "Data storytelling"] },
+  { name: "Réseaux & Télécoms", domain: "Sciences & Tech", risk: 42, horizon: "2029", level: "Moyen", verdict: "L'optimisation des réseaux par l'IA automatise beaucoup. La 5G et les réseaux définis par logiciel créent de nouveaux besoins.", skills: ["Network AI", "5G/6G", "Cloud networking", "Sécurité réseau"] },
+  { name: "Architecture", domain: "Sciences & Tech", risk: 48, horizon: "2028", level: "Moyen-Élevé", verdict: "Les outils génératifs (Midjourney, etc.) transforment la conception. L'architecte doit être un chef d'orchestre créatif maîtrisant l'IA.", skills: ["Conception générative", "BIM", "Durabilité", "Expérience client"] },
+  { name: "Urbanisme", domain: "Sciences & Tech", risk: 38, horizon: "2030", level: "Moyen", verdict: "L'IA optimise la planification urbaine mais les décisions politiques et sociales restent humaines.", skills: ["GIS IA", "Smart city", "Participation citoyenne", "Transport"] },
+  { name: "Astronomie", domain: "Sciences & Tech", risk: 22, horizon: "2035+", level: "Faible", verdict: "L'IA traite d'énormes volumes de données télescopiques mais la recherche fondamentale reste profondément humaine.", skills: ["Analyse de données IA", "Simulation", "Observation", "Modélisation"] },
+
+  // Économie & Gestion
+  { name: "Commerce & Management", domain: "Économie & Gestion", risk: 55, horizon: "2027", level: "Élevé", verdict: "Les fonctions analytiques et de reporting sont fortement automatisées. La valeur ajoutée est dans le leadership, la stratégie et les relations.", skills: ["Leadership IA", "Stratégie", "Négociation", "Gestion du changement"] },
+  { name: "Finance", domain: "Économie & Gestion", risk: 62, horizon: "2026", level: "Élevé", verdict: "Les traders algorithmiques et les outils IA dominent déjà certains segments. La finance comportementale, le conseil haut de gamme et la réglementation restent humains.", skills: ["FinTech", "Risque IA", "Réglementation", "Conseil patrimonial"] },
+  { name: "Comptabilité", domain: "Économie & Gestion", risk: 72, horizon: "2026", level: "Très Élevé", verdict: "⚠️ Fortement à risque. Les logiciels comptables IA automatisent 80%+ des tâches routinières. Le cabinet comptable du futur aura besoin de beaucoup moins de comptables traditionnels.", skills: ["Audit IA", "Conseil fiscal", "Analyse financière", "Conformité"] },
+  { name: "Économie", domain: "Économie & Gestion", risk: 40, horizon: "2030", level: "Moyen", verdict: "La macroéconomie et la politique économique restent complexes pour l'IA. Les économistes qui maîtrisent les outils de modélisation IA sont très demandés.", skills: ["Économétrie IA", "Policy design", "Modélisation", "Recherche"] },
+  { name: "Marketing", domain: "Économie & Gestion", risk: 60, horizon: "2027", level: "Élevé", verdict: "La création de contenu, la pub ciblée et l'analyse IA transforment radicalement le marketing. Les stratèges créatifs avec vision humaine restent indispensables.", skills: ["IA générative créative", "Stratégie de marque", "Data marketing", "Influence"] },
+  { name: "Ressources Humaines", domain: "Économie & Gestion", risk: 55, horizon: "2028", level: "Élevé", verdict: "Le recrutement et l'administration RH s'automatisent. La culture d'entreprise, le développement humain et la médiation restent des compétences clés.", skills: ["People analytics", "Développement org.", "Culture & diversité", "Leadership"] },
+  { name: "Logistique & Supply Chain", domain: "Économie & Gestion", risk: 58, horizon: "2027", level: "Élevé", verdict: "L'optimisation IA des chaînes logistiques est déjà avancée. Les gestionnaires de crise, de relations fournisseurs et de durabilité sont valorisés.", skills: ["Supply chain IA", "Durabilité", "Gestion de crise", "Négociation"] },
+  { name: "Entrepreneuriat", domain: "Économie & Gestion", risk: 15, horizon: "N/A", level: "Très Faible", verdict: "L'IA est un outil puissant pour les entrepreneurs. Les créateurs de valeur, preneurs de risques et innovateurs restent très demandés.", skills: ["IA comme levier", "Innovation", "Leadership", "Levée de fonds"] },
+  { name: "Banque & Assurance", domain: "Économie & Gestion", risk: 65, horizon: "2026", level: "Très Élevé", verdict: "⚠️ Secteur très touché. Les analystes de crédit, actuaires basiques et conseillers clients de base sont fortement automatisables.", skills: ["Underwriting IA", "Gestion des risques", "Conseil patrimonial", "Réglementaire"] },
+  { name: "Commerce International", domain: "Économie & Gestion", risk: 48, horizon: "2029", level: "Moyen-Élevé", verdict: "La négociation interculturelle et la diplomatie commerciale restent humaines. La documentation et l'analyse de marché s'automatisent.", skills: ["Négociation interculturelle", "Réglementation douanière", "Analyse géopolitique", "Langues"] },
+  { name: "Immobilier", domain: "Économie & Gestion", risk: 52, horizon: "2028", level: "Élevé", verdict: "L'évaluation IA et les visites virtuelles transforment le secteur. Le relationnel, la négociation et l'expertise locale gardent leur valeur.", skills: ["PropTech", "Négociation", "Expertise locale", "Investissement"] },
+
+  // Droit & Sciences Politiques
+  { name: "Droit", domain: "Droit & Politique", risk: 45, horizon: "2029", level: "Moyen", verdict: "La recherche juridique et la rédaction de contrats basiques s'automatisent. La plaidoirie, la stratégie juridique complexe et l'éthique restent profondément humaines.", skills: ["LegalTech", "Droit de l'IA", "Plaidoirie", "Conseil stratégique"] },
+  { name: "Sciences Politiques", domain: "Droit & Politique", risk: 25, horizon: "2035+", level: "Faible", verdict: "L'analyse politique, la compréhension des dynamiques humaines et la gouvernance restent des domaines où l'IA est un outil, pas un acteur.", skills: ["Analyse IA de données politiques", "Gouvernance algorithmique", "Diplomatie", "Recherche"] },
+  { name: "Relations Internationales", domain: "Droit & Politique", risk: 20, horizon: "2035+", level: "Faible", verdict: "La diplomatie, la compréhension culturelle profonde et la construction de confiance entre nations restent irremplaçables.", skills: ["Analyse géopolitique IA", "Diplomatie numérique", "Négociation", "Droit international"] },
+  { name: "Administration Publique", domain: "Droit & Politique", risk: 55, horizon: "2028", level: "Élevé", verdict: "Les processus administratifs routiniers s'automatisent massivement. La politique publique, le leadership et la gestion de crise restent humains.", skills: ["GovTech", "Politiques publiques IA", "Leadership", "Transformation digitale"] },
+  { name: "Criminologie", domain: "Droit & Politique", risk: 35, horizon: "2031", level: "Moyen", verdict: "L'IA prédictive en justice soulève des questions éthiques majeures. Les criminologues qui comprennent ces enjeux sont très demandés.", skills: ["IA prédictive", "Éthique algorithmique", "Analyse comportementale", "Politiques pénales"] },
+
+  // Santé
+  { name: "Médecine Générale", domain: "Santé", risk: 30, horizon: "2032", level: "Moyen", verdict: "L'IA diagnostique est puissante, mais la relation médecin-patient, l'examen clinique et le jugement contextuel restent irremplaçables.", skills: ["Diagnostic IA assisté", "Médecine de précision", "Relation patient", "Gestion complexe"] },
+  { name: "Chirurgie", domain: "Santé", risk: 25, horizon: "2033", level: "Faible-Moyen", verdict: "La chirurgie robotique est en expansion mais le chirurgien reste aux commandes. L'expertise et le jugement per-opératoire ne peuvent être délégués.", skills: ["Chirurgie robotique", "IA peropératoire", "Simulation chirurgicale", "Gestion de complications"] },
+  { name: "Radiologie", domain: "Santé", risk: 55, horizon: "2027", level: "Élevé", verdict: "⚠️ L'IA surpasse déjà les radiologues sur certains diagnostics d'image. La spécialité évolue vers l'interprétation complexe et la coordination clinique.", skills: ["Radiologie IA", "Médecine de précision", "Coordination clinique", "Cas complexes"] },
+  { name: "Pharmacie", domain: "Santé", risk: 48, horizon: "2028", level: "Moyen-Élevé", verdict: "La gestion des médicaments et les interactions s'automatisent. Le pharmacien clinicien et le conseil patient gardent leur valeur.", skills: ["Pharmacovigilance IA", "Conseil patient", "Pharmaceutical AI", "Compliance"] },
+  { name: "Infirmier·ère", domain: "Santé", risk: 18, horizon: "2035+", level: "Très Faible", verdict: "Les soins infirmiers requièrent empathie, toucher, jugement contextuel et gestion d'urgences. L'IA assiste mais ne remplace pas.", skills: ["Soins augmentés", "Monitoring IA", "Gestion complexe", "Care coordination"] },
+  { name: "Psychologie", domain: "Santé", risk: 22, horizon: "2034", level: "Faible", verdict: "La thérapie requiert une connexion humaine authentique. L'IA peut soutenir mais pas remplacer l'alliance thérapeutique. Demande en hausse.", skills: ["Thérapie digitale", "Neurosciences", "Évaluation IA assistée", "Recherche"] },
+  { name: "Psychiatrie", domain: "Santé", risk: 20, horizon: "2035+", level: "Faible", verdict: "La complexité des troubles mentaux et la relation thérapeutique font de la psychiatrie une filière très résistante à l'automatisation.", skills: ["Neuroimagerie IA", "Psychopharmacologie", "Thérapies innovantes", "Recherche"] },
+  { name: "Dentisterie", domain: "Santé", risk: 28, horizon: "2033", level: "Faible-Moyen", verdict: "La dextérité manuelle, le soin personnalisé et la relation patient protègent la dentisterie. L'IA améliore le diagnostic.", skills: ["Imagerie IA", "Implantologie", "Prévention digitale", "Orthodontie 3D"] },
+  { name: "Kinésithérapie", domain: "Santé", risk: 20, horizon: "2035+", level: "Faible", verdict: "Le toucher thérapeutique, l'adaptation aux réactions du patient et la relation humaine protègent cette profession.", skills: ["Réhabilitation IA", "Wearables", "Télé-kiné", "Biomécanique"] },
+  { name: "Nutrition & Diététique", domain: "Santé", risk: 42, horizon: "2029", level: "Moyen", verdict: "Les applis IA de nutrition se développent mais le suivi personnalisé et la prise en charge des troubles alimentaires restent humains.", skills: ["Nutrition de précision", "Coaching digital", "Recherche", "Psycho-nutrition"] },
+  { name: "Santé Publique", domain: "Santé", risk: 32, horizon: "2031", level: "Moyen", verdict: "L'épidémiologie IA est puissante mais les décisions de santé publique et la communication restent des responsabilités humaines.", skills: ["Épidémiologie IA", "One Health", "Politique de santé", "Communication"] },
+
+  // Sciences Humaines & Sociales
+  { name: "Sociologie", domain: "Sciences Humaines", risk: 35, horizon: "2031", level: "Moyen", verdict: "L'analyse de données sociales par l'IA change les méthodes. La compréhension des dynamiques humaines complexes reste une expertise précieuse.", skills: ["Computational sociology", "Analyse de discours IA", "Recherche qualitative", "Politique sociale"] },
+  { name: "Anthropologie", domain: "Sciences Humaines", risk: 22, horizon: "2035+", level: "Faible", verdict: "La recherche de terrain, la compréhension culturelle profonde et l'interprétation ethnographique ne peuvent être automatisées.", skills: ["Anthropologie digitale", "Analyse culturelle IA", "Ethnographie", "Patrimoine"] },
+  { name: "Histoire", domain: "Sciences Humaines", risk: 28, horizon: "2033", level: "Faible-Moyen", verdict: "L'IA analyse les archives massives mais l'interprétation historique, la narration et la contextualisation restent profondément humaines.", skills: ["Digital humanities", "Analyse IA d'archives", "Narration", "Recherche"] },
+  { name: "Philosophie", domain: "Sciences Humaines", risk: 18, horizon: "2035+", level: "Très Faible", verdict: "L'éthique de l'IA est LE domaine chaud du moment. Les philosophes sont plus nécessaires que jamais pour guider le développement technologique.", skills: ["Éthique IA", "Philosophie du droit", "Pensée critique", "Argumentation"] },
+  { name: "Géographie", domain: "Sciences Humaines", risk: 38, horizon: "2030", level: "Moyen", verdict: "Le SIG et la géographie computationnelle explosent. Les géographes qui maîtrisent l'IA pour analyser les territoires sont très recherchés.", skills: ["GIS IA", "Télédétection", "Géomatique", "Changement climatique"] },
+  { name: "Linguistique", domain: "Sciences Humaines", risk: 35, horizon: "2030", level: "Moyen", verdict: "Le NLP (traitement du langage) est au cœur de l'IA. Les linguistes qui comprennent comment les LLMs fonctionnent sont très demandés.", skills: ["NLP", "Linguistique computationnelle", "Traduction IA", "Données langagières"] },
+  { name: "Lettres & Littérature", domain: "Sciences Humaines", risk: 52, horizon: "2028", level: "Élevé", verdict: "La création de contenu textuel basique est fortement automatisée. L'édition, la curation culturelle et la création originale profonde gardent leur valeur.", skills: ["Écriture créative augmentée", "Édition", "Curation culturelle", "Enseignement"] },
+  { name: "Langues Étrangères", domain: "Sciences Humaines", risk: 58, horizon: "2027", level: "Élevé", verdict: "⚠️ La traduction automatique s'améliore rapidement. La valeur est dans la médiation interculturelle, la diplomatie et les spécialisations techniques.", skills: ["Traduction spécialisée", "Médiation culturelle", "Enseignement", "Localisation IA"] },
+
+  // Arts & Création
+  { name: "Design Graphique", domain: "Arts & Création", risk: 65, horizon: "2026", level: "Très Élevé", verdict: "⚠️ Midjourney, DALL-E, Adobe Firefly transforment la profession. Les designers stratégiques et directeurs artistiques qui dirigent l'IA créative restent valorisés.", skills: ["IA générative créative", "Direction artistique", "Branding stratégique", "UX/UI"] },
+  { name: "UX/UI Design", domain: "Arts & Création", risk: 45, horizon: "2029", level: "Moyen", verdict: "Les outils IA de prototypage se développent mais la recherche utilisateur, l'empathie et la stratégie de design restent humains.", skills: ["Design systems IA", "Recherche utilisateur", "Stratégie produit", "Accessibilité"] },
+  { name: "Arts Plastiques", domain: "Arts & Création", risk: 40, horizon: "2030", level: "Moyen", verdict: "L'IA génère de l'art mais le marché de l'art et la valeur culturelle des œuvres uniques restent humains. L'artiste se réinvente.", skills: ["Art génératif", "Médias mixtes", "NFT & art digital", "Curation"] },
+  { name: "Musique", domain: "Arts & Création", risk: 45, horizon: "2029", level: "Moyen", verdict: "Suno, Udio et les IA musicales progressent vite. La composition originale émotionnellement profonde et la performance live restent humaines.", skills: ["Production IA", "Composition originale", "Performance", "Théorie musicale"] },
+  { name: "Cinéma & Audiovisuel", domain: "Arts & Création", risk: 48, horizon: "2028", level: "Moyen-Élevé", verdict: "Les IA de génération vidéo (Sora) transforment la post-production. La narration, la direction artistique et le storytelling restent centraux.", skills: ["Post-prod IA", "Storytelling", "Direction", "Création de monde"] },
+  { name: "Animation 3D", domain: "Arts & Création", risk: 55, horizon: "2027", level: "Élevé", verdict: "L'animation IA automatise les tâches répétitives. Les animateurs créatifs et les superviseurs techniques restent nécessaires.", skills: ["Animation IA assistée", "Direction créative", "Rigging avancé", "VFX"] },
+  { name: "Architecture d'Intérieur", domain: "Arts & Création", risk: 50, horizon: "2028", level: "Élevé", verdict: "Les outils de design génératif transforment la profession. La relation client, la coordination des corps de métier et le goût restent humains.", skills: ["Design génératif IA", "Relation client", "Gestion de projet", "Durabilité"] },
+  { name: "Mode & Textile", domain: "Arts & Création", risk: 42, horizon: "2029", level: "Moyen", verdict: "L'IA génère des designs et optimise les collections. La vision créative, l'identité de marque et la durabilité restent des enjeux humains.", skills: ["Design IA génératif", "Durabilité", "Identité créative", "Retail tech"] },
+  { name: "Photographie", domain: "Arts & Création", risk: 60, horizon: "2027", level: "Très Élevé", verdict: "⚠️ La photographie de stock est fortement menacée par les IA génératives. La photographie événementielle, artistique et documentaire garde sa valeur.", skills: ["Direction artistique", "Photographie documentaire", "Retouche IA", "Storytelling visuel"] },
+  { name: "Jeu Vidéo & Game Design", domain: "Arts & Création", risk: 38, horizon: "2030", level: "Moyen", verdict: "L'IA génère des assets et du contenu procédural mais le game design créatif, la narration et le level design restent humains.", skills: ["Game IA design", "Narration interactive", "Systèmes de jeu", "Communauté"] },
+
+  // Communication & Médias
+  { name: "Journalisme", domain: "Communication", risk: 62, horizon: "2026", level: "Très Élevé", verdict: "⚠️ Les articles financiers et sportifs basiques sont déjà automatisés. L'investigation, l'analyse politique et le reportage de terrain restent humains et précieux.", skills: ["Journalisme d'investigation", "Vérification IA", "Reportage", "Data journalism"] },
+  { name: "Communication & PR", domain: "Communication", risk: 55, horizon: "2027", level: "Élevé", verdict: "La production de contenu s'automatise. La stratégie de communication, la gestion de crise et les relations humaines restent la valeur ajoutée.", skills: ["Stratégie IA augmentée", "Gestion de crise", "Influence", "Relations publiques"] },
+  { name: "Publicité", domain: "Communication", risk: 65, horizon: "2026", level: "Très Élevé", verdict: "⚠️ La création publicitaire basique, le ciblage et l'achat média sont fortement automatisés. La direction créative et la stratégie de marque restent humaines.", skills: ["Direction créative", "Stratégie de marque", "IA générative pub", "Brand storytelling"] },
+  { name: "Édition & Librairie", domain: "Communication", risk: 48, horizon: "2029", level: "Moyen-Élevé", verdict: "L'IA génère du contenu mais la curation éditoriale, le développement d'auteurs et la stratégie de publication restent des expertises humaines.", skills: ["Curation éditoriale", "Droits numériques", "Stratégie publication", "Développement auteurs"] },
+  { name: "Relations Publiques", domain: "Communication", risk: 52, horizon: "2028", level: "Élevé", verdict: "Les relations humaines, la confiance et la gestion de réputation restent des compétences que l'IA ne peut pas automatiser entièrement.", skills: ["Stratégie influence", "Gestion de crise", "Médias relations", "Réputation digitale"] },
+
+  // Éducation & Social
+  { name: "Éducation & Enseignement", domain: "Éducation", risk: 32, horizon: "2031", level: "Moyen", verdict: "L'IA tuteur personnalise l'apprentissage mais l'enseignant motivateur, socio-émotionnel et adaptatif reste irremplaçable.", skills: ["EdTech IA", "Pédagogie innovante", "Mentorat", "Inclusion"] },
+  { name: "Éducation Spécialisée", domain: "Éducation", risk: 15, horizon: "2035+", level: "Très Faible", verdict: "Les enfants à besoins spéciaux nécessitent une présence humaine empathique et adaptative. Cette filière est très protégée.", skills: ["IA assistive", "Différenciation pédagogique", "Famille collaboration", "Évaluation spécialisée"] },
+  { name: "Travail Social", domain: "Éducation", risk: 15, horizon: "2035+", level: "Très Faible", verdict: "L'empathie, la présence humaine et la gestion des situations de crise sociale restent au cœur d'une profession très protégée.", skills: ["Social tech", "Gestion de cas complexes", "Médiation familiale", "Advocacy"] },
+  { name: "Psychologie Éducative", domain: "Éducation", risk: 25, horizon: "2033", level: "Faible", verdict: "L'adaptation aux besoins individuels de l'enfant et la collaboration avec les familles restent profondément humaines.", skills: ["EdTech", "Évaluation IA assistée", "Neuropsychologie", "Accompagnement"] },
+  { name: "Sciences de l'Éducation", domain: "Éducation", risk: 30, horizon: "2032", level: "Moyen", verdict: "La recherche en éducation et le design pédagogique intégrant l'IA sont des compétences très demandées.", skills: ["Learning analytics", "Design pédagogique IA", "Recherche", "Formation"] },
+
+  // Environnement
+  { name: "Sciences de l'Environnement", domain: "Environnement", risk: 20, horizon: "2035+", level: "Faible", verdict: "La crise climatique fait exploser la demande pour des experts environnementaux. L'IA est un outil d'analyse, pas un remplaçant.", skills: ["Modélisation climatique IA", "GIS", "Politique environnementale", "Durabilité"] },
+  { name: "Géologie", domain: "Environnement", risk: 35, horizon: "2031", level: "Moyen", verdict: "L'IA analyse les données sismiques et géologiques mais l'interprétation de terrain et la prospection restent humaines.", skills: ["Géo-IA", "Remote sensing", "Énergie géothermique", "Ressources minières"] },
+  { name: "Agronomie", domain: "Environnement", risk: 38, horizon: "2030", level: "Moyen", verdict: "L'agriculture de précision et les drones IA transforment le secteur. La gestion agronomique complexe et l'adaptation aux territoires restent humaines.", skills: ["Agritech IA", "Agriculture de précision", "Durabilité", "AgroEcologie"] },
+  { name: "Développement Durable", domain: "Environnement", risk: 18, horizon: "2035+", level: "Très Faible", verdict: "La transition écologique est une urgence mondiale. Les experts en durabilité qui intègrent l'IA dans leur analyse sont extrêmement demandés.", skills: ["ESG analytics IA", "Transition énergétique", "Économie circulaire", "Politique climatique"] },
+  { name: "Oceanographie", domain: "Environnement", risk: 25, horizon: "2033", level: "Faible", verdict: "L'exploration des océans et la surveillance climatique marine génèrent une demande croissante. L'IA traite les données, l'humain les interprète.", skills: ["Modélisation océanique", "Robotique sous-marine", "Changement climatique", "Biodiversité marine"] },
+];
+
+// DOM refs
+const searchInput = document.getElementById('majorSearch');
+const dropdown = document.getElementById('dropdown');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const resultDiv = document.getElementById('result');
+const loadingWrap = document.getElementById('loadingWrap');
+
+let selectedMajor = null;
+
+// Filter & render dropdown
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  selectedMajor = null;
+  analyzeBtn.disabled = true;
+  resultDiv.style.display = 'none';
+
+  if (!q) { dropdown.style.display = 'none'; return; }
+  const filtered = majors.filter(m => m.name.toLowerCase().includes(q) || m.domain.toLowerCase().includes(q));
+  if (!filtered.length) { dropdown.style.display = 'none'; return; }
+
+  dropdown.innerHTML = filtered.slice(0, 12).map(m => `
+    <div class="drop-item" data-name="${m.name}">
+      <span>${m.name}</span>
+      <span class="domain-tag">${m.domain}</span>
+    </div>
+  `).join('');
+  dropdown.style.display = 'block';
+
+  dropdown.querySelectorAll('.drop-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const name = el.dataset.name;
+      selectedMajor = majors.find(m => m.name === name);
+      searchInput.value = name;
+      dropdown.style.display = 'none';
+      analyzeBtn.disabled = false;
+      resultDiv.style.display = 'none';
+    });
+  });
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap') && !e.target.closest('#dropdown')) {
+    dropdown.style.display = 'none';
+  }
+});
+
+// Analyze
+analyzeBtn.addEventListener('click', () => {
+  if (!selectedMajor) return;
+  loadingWrap.style.display = 'flex';
+  resultDiv.style.display = 'none';
+  analyzeBtn.disabled = true;
+
+  setTimeout(() => {
+    loadingWrap.style.display = 'none';
+    renderResult(selectedMajor);
+    analyzeBtn.disabled = false;
+  }, 1800);
+});
+
+function riskColor(risk) {
+  if (risk >= 60) return { fill: '#ff6b6b', cls: 'risk-high', label: 'RISQUE ÉLEVÉ' };
+  if (risk >= 40) return { fill: '#ffb432', cls: 'risk-medium', label: 'RISQUE MODÉRÉ' };
+  return { fill: '#50dc78', cls: 'risk-low', label: 'RISQUE FAIBLE' };
+}
+
+function renderResult(m) {
+  const rc = riskColor(m.risk);
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `
+    <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:1.5rem;">
+      <div class="result-header">
+        <div class="result-major-name">${m.name}</div>
+        <div class="risk-pill ${rc.cls}">${rc.label}</div>
+      </div>
+
+      <div class="risk-bar-wrap">
+        <div class="risk-bar-labels">
+          <span>Probabilité d'automatisation IA</span>
+          <span id="riskPct">0%</span>
+        </div>
+        <div class="risk-bar-track">
+          <div class="risk-bar-fill" id="riskFill" style="background:${rc.fill}"></div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-block">
+          <div class="ib-label">Horizon estimé</div>
+          <div class="ib-value">${m.horizon}</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-label">Niveau de risque</div>
+          <div class="ib-value" style="color:${rc.fill}">${m.level}</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-label">Domaine</div>
+          <div class="ib-value">${m.domain}</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-label">Score IA</div>
+          <div class="ib-value">${m.risk}/100</div>
+        </div>
+      </div>
+
+      <div class="verdict-box">
+        <div class="vb-title">🤖 Analyse IA</div>
+        ${m.verdict}
+      </div>
+
+      <div class="skills-section">
+        <div class="sk-label">Compétences à développer pour rester compétitif</div>
+        <div class="skills-chips">
+          ${m.skills.map(s => `<span class="skill-chip">${s}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Animate bar
+  setTimeout(() => {
+    document.getElementById('riskFill').style.width = m.risk + '%';
+    let current = 0;
+    const target = m.risk;
+    const step = () => {
+      current = Math.min(current + 2, target);
+      document.getElementById('riskPct').textContent = current + '%';
+      if (current < target) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, 100);
+
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
+</html>
